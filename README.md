@@ -31,9 +31,19 @@ A hardware sudoku device built with a Raspberry Pi Zero, 1024x600 HDMI display, 
 
 ## Setup
 
+**Mac/Linux:**
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
+pip install -e ".[dev]"
+```
+
+**Windows:**
+
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
 pip install -e ".[dev]"
 ```
 
