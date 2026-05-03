@@ -34,7 +34,8 @@ class Renderer:
         font_path = Path(__file__).parent.parent.parent.parent / "assets" / "fonts"
         self._given_font = self._load_font(font_path, "DejaVuSansMono-Bold.ttf", 32)
         self._player_font = self._load_font(font_path, "DejaVuSansMono.ttf", 32)
-        self._notes_font = self._load_font(font_path, "DejaVuSansMono.ttf", 14)
+        self._notes_font = self._load_font(font_path, "DejaVuSansMono.ttf", 11)
+        self._cage_notes_font = self._load_font(font_path, "DejaVuSansMono.ttf", 10)
         self._mode_font = self._load_font(font_path, "DejaVuSansMono.ttf", 18)
         self._cage_font = self._load_font(font_path, "DejaVuSansMono.ttf", 10)
         self._perf_font = self._load_font(font_path, "DejaVuSansMono.ttf", 12)
@@ -121,7 +122,17 @@ class Renderer:
                     rect = self._layout.cell_rect(r, c)
                     pygame.draw.rect(self._screen, Colors.CONFLICT_BG, rect)
 
+    def _build_cage_sum_cells(self, state: GameState) -> set[tuple[int, int]]:
+        result: set[tuple[int, int]] = set()
+        for constraint in state.constraints:
+            if isinstance(constraint, CageConstraint) and constraint.cells:
+                min_cell = min(constraint.cells, key=lambda p: (p[0], p[1]))
+                result.add(min_cell)
+        return result
+
     def _draw_cells(self, state: GameState) -> None:
+        cage_sum_cells = self._build_cage_sum_cells(state)
+
         for r in range(9):
             for c in range(9):
                 cell = state.grid.get(r, c)
@@ -141,9 +152,14 @@ class Renderer:
                     text_rect = text.get_rect(center=(center_x, center_y))
                     self._screen.blit(text, text_rect)
                 elif cell.notes:
+                    is_cage_sum = (r, c) in cage_sum_cells
+                    notes_font = self._cage_notes_font if is_cage_sum else self._notes_font
                     for digit in cell.notes:
-                        nx, ny = self._layout.note_position(r, c, digit)
-                        text = self._notes_font.render(str(digit), True, Colors.NOTES_TEXT)
+                        if is_cage_sum:
+                            nx, ny = self._layout.cage_note_position(r, c, digit)
+                        else:
+                            nx, ny = self._layout.note_position(r, c, digit)
+                        text = notes_font.render(str(digit), True, Colors.NOTES_TEXT)
                         text_rect = text.get_rect(center=(nx, ny))
                         self._screen.blit(text, text_rect)
 
@@ -207,7 +223,7 @@ class Renderer:
                 sum_color = Colors.CAGE_SUM_TEXT
 
             text = self._cage_font.render(str(cage.target_sum), True, sum_color)
-            self._screen.blit(text, (cx + 2, cy + 1))
+            self._screen.blit(text, (cx + pad + 2, cy + pad + 1))
 
         # Draw dashed borders with padding inset from cell edges
         for row, col in cage.cells:

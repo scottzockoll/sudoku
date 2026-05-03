@@ -12,17 +12,26 @@ logger = logging.getLogger("sudoku.debug")
 
 
 class DebugLogger:
+    _initialized = False
+
     def __init__(self) -> None:
         self.enabled = False
+        if not DebugLogger._initialized:
+            logging.basicConfig(
+                level=logging.ERROR,
+                format="%(name)s | %(message)s",
+            )
+            logger.setLevel(logging.ERROR)
+            DebugLogger._initialized = True
 
     def toggle(self) -> None:
         self.enabled = not self.enabled
         if self.enabled:
-            logging.basicConfig(level=logging.DEBUG, format="%(name)s | %(message)s")
             logger.setLevel(logging.DEBUG)
             logger.debug("Debug logging enabled")
         else:
             logger.debug("Debug logging disabled")
+            logger.setLevel(logging.ERROR)
 
     def log_action(self, action: Action) -> None:
         if self.enabled:

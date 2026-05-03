@@ -25,17 +25,17 @@ class Colors:
     CAGE_SUM_TEXT = (90, 90, 90)
     CAGE_SUM_ERROR = (210, 50, 50)
 
-    # User highlight colors (index 1-9)
+    # User highlight colors (index 1-9, each a distinct hue)
     HIGHLIGHTS: dict[int, tuple[int, int, int]] = {
-        1: (207, 232, 239),  # light blue
-        2: (209, 237, 209),  # light green
-        3: (252, 228, 190),  # light orange
-        4: (210, 230, 220),  # mint
-        5: (226, 210, 239),  # light purple
-        6: (252, 243, 190),  # light yellow
-        7: (199, 228, 210),  # teal
-        8: (232, 218, 202),  # tan
-        9: (215, 215, 215),  # light gray
+        1: (200, 225, 245),  # blue
+        2: (200, 235, 200),  # green
+        3: (250, 225, 185),  # orange
+        4: (250, 245, 190),  # yellow
+        5: (225, 205, 240),  # purple
+        6: (245, 210, 225),  # pink
+        7: (195, 235, 230),  # teal
+        8: (235, 215, 195),  # peach
+        9: (215, 215, 215),  # gray
     }
 
     # UI
