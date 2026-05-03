@@ -50,11 +50,7 @@ pip install -e ".[dev]"
 ## Run
 
 ```bash
-# Menu mode
 python -m sudoku
-
-# Direct puzzle
-python -m sudoku puzzles/easy_001.json
 
 # With debug logging
 python -m sudoku --debug
