@@ -1,0 +1,16 @@
+[Unit]
+Description=Sudoku Game
+After=graphical.target
+
+[Service]
+Type=simple
+User=pi
+Environment=DISPLAY=:0
+Environment=SDL_VIDEODRIVER=kmsdrm
+ExecStart=/usr/bin/python3 -m sudoku
+WorkingDirectory=/home/pi/sudoku
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical.target
