@@ -17,10 +17,13 @@ class DebugLogger:
     def __init__(self) -> None:
         self.enabled = False
         if not DebugLogger._initialized:
-            logging.basicConfig(
-                level=logging.ERROR,
-                format="%(name)s | %(message)s",
-            )
+            # Silence all loggers by default
+            logging.root.setLevel(logging.ERROR)
+            # Remove any existing handlers, add one clean one
+            logging.root.handlers.clear()
+            handler = logging.StreamHandler()
+            handler.setFormatter(logging.Formatter("%(name)s | %(message)s"))
+            logging.root.addHandler(handler)
             logger.setLevel(logging.ERROR)
             DebugLogger._initialized = True
 
