@@ -119,5 +119,3 @@ sudo systemctl start sudoku
 ```
 
 Grid values: `0` = empty, `1-9` = given. Constraints are optional.
-
-## Made by the boys, spring 2026
