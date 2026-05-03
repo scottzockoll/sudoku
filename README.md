@@ -42,18 +42,20 @@ pip install -e ".[dev]"
 **Windows:**
 
 ```powershell
-python -m venv .venv
+python3 -m venv .venv
 .venv\Scripts\activate
 pip install -e ".[dev]"
 ```
 
+> **Note:** On Windows, use `python3` instead of `python`. If `python3` is not found, check that Python is added to your PATH.
+
 ## Run
 
 ```bash
-python -m sudoku
+python3 -m sudoku
 
 # With debug logging
-python -m sudoku --debug
+python3 -m sudoku --debug
 ```
 
 ## Development
